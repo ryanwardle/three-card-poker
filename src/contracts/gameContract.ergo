@@ -1,0 +1,67 @@
+{
+import org.ergoplatform.compiler.ErgoScalaCompiler._
+import org.ergoplatform.playgroundenv.utils.ErgoScriptCompiler
+import org.ergoplatform.playground._
+
+// val pairPlus:Long = OUTPUTS(0).R5[Long].get
+
+val startGameScript = s"""
+    {
+    val ante = OUTPUTS(0).R4[Long].get
+    sigmaProp(SELF.value == ante)
+    }
+    """.stripMargin
+
+// TEST
+
+// Create a simulated blockchain (aka "Mockchain")
+val blockchainSim = newBlockChainSimulationScenario("Start Game Scenario")
+
+// Define a bettor
+val bettor = blockchainSim.newParty("bettor")
+
+// Define initial amount of nanoErgs in bettor's wallet
+val bettorFunds = 100000000000L
+
+// Create a Start Game Contract
+val startGameContract = ErgoScriptCompiler.compile(Map(), startGameScript)
+
+// Generate inital bettorFunds in bettor's wallet
+bettor.generateUnspentBoxes(toSpend = bettorFunds)
+bettor.printUnspentAssets()
+println("----------- Bettor's Initial Funds -----------")
+
+///////////////////////////////////////////////////////////////////////////////////
+// Ante And Pair Plus To Start Game Contract //
+///////////////////////////////////////////////////////////////////////////////////
+
+// Create an output box with the ante and pairplus bets stored in registers
+val anteBet:Long = 5000000000L
+val pairPlusBet:Long = 1000000000L
+val totalBets: Long = anteBet + pairPlusBet
+
+val startGameBox = Box(
+    value = anteBet,
+    register = R4 -> anteBet,
+    script = startGameContract
+)
+
+// Create ante transaction which locks the bettor's wager under the contract
+val anteTransaction = Transaction(
+      inputs       = bettor.selectUnspentBoxes(toSpend = anteBet),
+      outputs      = List(startGameBox),
+      fee          = MinTxFee,
+      sendChangeTo = bettor.wallet.getAddress
+    )
+
+// Print anteTransaction
+println(anteTransaction)
+
+// Sign the anteTransaction
+val anteTransactionSigned = bettor.wallet.sign(anteTransaction)
+
+// Submit tx to blockchain simulation
+blockchainSim.send(anteTransactionSigned)
+bettor.printUnspentAssets()
+println("----------- Bettor Has Successfully Anted -----------")
+}

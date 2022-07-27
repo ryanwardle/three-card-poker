@@ -1,0 +1,55 @@
+input {
+  height: 3.5rem;
+}
+
+/* background-color: #5ca1af; */
+/* button {
+  color: #360E95;
+  background-color: #f4d83d;
+  padding: 1rem;
+  border-radius: 20rem;
+  border: none;
+} */
+
+/* ORIGINAL CARD DIMENSIONS HEIGHT 22.5 REM, WIDTH 15REM...10% DECREASE 20.25REM 13.5REM */
+
+.card-in-hand{
+  display: flex;
+}
+
+.dealt-card{
+  height: 20.25rem;
+  width: 13.5rem;
+  margin: 0 1rem 3rem 1rem;
+  /* transform: translateX(-125%);
+  transition: transform .5s cubic-bezier(.25,0,.28,1.43); */
+}
+
+/* .animated{
+  transform: translateX(0);
+    transition: transform .5s cubic-bezier(.25,-1.42,.28,1.43);
+} */
+
+.card-back{
+  padding: .5rem;
+  border: .1rem solid black;
+  border-radius: .5rem;
+  background-color: white;
+}
+
+.hand-text{
+  text-align: center;
+  /* border-bottom: .1rem solid white; */
+  margin: 0 0 3rem 0;
+  /* display: inline-block; */
+  display: block;
+  /* width: auto; */
+}
+
+/*
+Yellow - #F9CE10
+Orange - #FD710F
+Red - #F43000
+Dark Blue - #D40F3C
+Pink - #FCFSEB
+*/

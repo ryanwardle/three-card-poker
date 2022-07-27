@@ -1,0 +1,78 @@
+<div class="container">
+  <div class="row justify-content-center mb-5 mt-5">
+    <div class="col-4">
+      <p class="text-center">
+        Min. Bet: {{ minBet }} ERG
+      </p>
+    </div>
+    <div class="col-4">
+      <p class="text-center">
+        Max. Bet: {{ maxBet }} ERG
+      </p>
+    </div>
+    <div class="col-4">
+      <p class="text-center">
+        *Hands that tie will push
+      </p>
+    </div>
+  </div>
+
+  <div class="row mb-3 mt-3 justify-content-center text-center">
+    <div class="col-4">
+      <form action="" (ngSubmit)="dealCards()" #wagerForm="ngForm">
+        <div>
+          <label for="placeWager" class="form-label mb-3 mt-3">Ante Amount</label>
+          <input [(ngModel)]="wagerAmount" name="wagerAmount" #amountWagered="ngModel" [disabled]="allowRaiseOrFold" type="number" class="form-control mb-2" id="wagerAmount" placeholder="Wager Amount" min="1" max="25" required>
+          <div [hidden]="amountWagered.valid || amountWagered.pristine || allowRaiseOrFold" class="alert alert-danger">
+            <p>
+              Wager must be between {{minBet}}-{{maxBet}} ERG
+            </p>
+          </div>
+          <button [disabled]="amountWagered.invalid || beenDealt" type="submit" class="mb-3 mt-3" style="width: 100%;">Deal</button>
+        </div>
+      </form>
+    </div>
+  </div>
+     <!-- Look at above button as template, no (click) and type=submit -->
+  <div class="row justify-content-center">
+    <div class="col-4 justify-content-between" style="display: flex;">
+      <button (click)="raise()" [disabled]="!allowRaiseOrFold" type="button" class="mb-3 mt-3" style="width: 45%;">Raise {{ wagerAmount }} ERG</button>
+      <button (click)="foldCards()" [disabled]="!allowRaiseOrFold" type="button" class="mb-3 mt-3" style="width: 45%;">Fold</button>
+    </div>
+  </div>
+
+<app-deck></app-deck>
+
+<!-- Check type -->
+  <div class="row justify-content-around">
+    <div class="col-4 text-center">
+      <!-- <button type="submit" class="btn btn-success btn-lg mb-5 mt-5" style="text-align: center; width: 100%;">Cash Out</button> -->
+
+      <p *ngIf="wagerNotSubmitted">Amount to win: {{wagerAmount * 2 }} ERG</p>
+      <p *ngIf="allowRaiseOrFold">You currently have wagered {{ wagerAmount }} ERG a raise of {{ wagerAmount }} ERG would win {{ winAmount * 2}} ERG</p>
+    </div>
+  </div>
+</div>
+
+  <!-- Need to have cards in the order in which they are intended to be dealt, for when I iterate through to deal. 1
+  Also shold give id to each div and then use id number when I iterate to deal the cards
+  -->
+<div class="container">
+  <div class="row justify-content-center">
+    <h3 [ngClass]="{'hand-text': allowRaiseOrFold || declareWinner}">{{dealerHand}}</h3>
+  </div>
+  <div class="row justify-content-center mb-5 mt-5">
+    <div class="col-2 card-in-hand text-center" *ngFor="let dealtCard of dealerCards">
+      <img [ngClass]="{'card-back': allowRaiseOrFold}" class="dealt-card" [src]="!allowRaiseOrFold ? dealtCard.image : './assets/images/Optimized-card-back-red.png'" alt="">
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <h3 [ngClass]="{'hand-text': allowRaiseOrFold || declareWinner}">{{yourHand}}</h3>
+  </div>
+  <div class="row justify-content-center mb-5 mt-5">
+    <div class="col-2 card-in-hand text-center" *ngFor="let dealtCard of playerCards">
+      <img  class="dealt-card"[src]="dealtCard.image" alt="">
+    </div>
+  </div>
+</div>

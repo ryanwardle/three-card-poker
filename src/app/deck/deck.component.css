@@ -1,0 +1,72 @@
+img {
+  display: inline;
+  position: relative;
+  /* This get rid of borders of fake cards from showing through */
+  background-color: white;
+  height: 20.25rem;
+  width: 13.5rem;
+  padding: .5rem;
+  border: .1rem solid black;
+  border-radius: .5rem;
+  z-index: 100;
+}
+
+span{
+  /* This get rid of borders of fake cards from showing through */
+  background-color: white;
+}
+
+.fake-card-1{
+  height: 20.25rem;
+  width: 13.5rem;
+  border: .1rem solid black;
+  border-radius: .5rem;
+  position: absolute;
+  left: 21.0%;
+  transform: translate(-50%);
+  z-index: 90;
+}
+
+.fake-card-2{
+  height: 20.25rem;
+  width: 13.5rem;
+  border: .1rem solid black;
+  border-radius: .5rem;
+  position: absolute;
+  left: 20.8%;
+  transform: translate(-50%);
+  z-index: 80;
+}
+
+.fake-card-3{
+  height: 20.25rem;
+  width: 13.5rem;
+  border: .1rem solid black;
+  border-radius: .5rem;
+  position: absolute;
+  left: 20.6%;
+  transform: translate(-50%);
+  z-index: 70;
+}
+
+.fake-card-4{
+  height: 20.25rem;
+  width: 13.5rem;
+  border: .1rem solid black;
+  border-radius: .5rem;
+  position: absolute;
+  left: 20.4%;
+  transform: translate(-50%);
+  z-index: 60;
+}
+
+.fake-card-5{
+  height: 20.25rem;
+  width: 13.5rem;
+  border: .1rem solid black;
+  border-radius: .5rem;
+  position: absolute;
+  left: 20.2%;
+  transform: translate(-50%);
+  z-index: 40;
+}

@@ -1,0 +1,21 @@
+{
+
+// THIS SHOULD BE FLOW: 1. Send bet to contract, user must then raise or fold (transaction sent from off-chain to on-chain)
+//                        -User address that sends money must be adress that raises or folds
+//                        -This should send money to house then OUTPUT the random number that it gets to deal the cards(must be done securely)
+//                        -Need number to be able to shuffle and deal cards on the front end
+//                      2. If fold then bet is sent to house (transaction is complete)
+//                      3. If riase then evaluate hands and send money to winner(transaction is complete)
+//                      -Raise or fold must happen for transaction to complete
+
+// THIS CONTRACT WILL EVALUATE WHICH HAND WINS, WILL HAVE TO TRANSFER MOST OF THE JAVASCRIPT OVER
+// DIFFERENT CONTRACT WILL GET RANDOM NUMBER
+// TOGETHER THIS MAKES THE GAME FAIR
+
+// ** MAYBE BEST ORDER IS THIS?: 1. Send initial bets to contract
+//                               2. Contract will take bets and then Output the hands/random number
+//                               3. Next script will send money to house if fold and evaluate hands if raise
+//                               4. PROBLEM: Outputting the hands/random number exposes the game to possible cheating.
+//                                           Need info to be able to display on front end before the bettor makes raise/fold decision
+//                                           This needs figured out
+}

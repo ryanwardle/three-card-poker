@@ -1,0 +1,126 @@
+<div class="container">
+  <div class="row justify-content-center mb-5 mt-5">
+    <div class="col-4 text-center">
+      <p class="text-center">
+        Min. Bet: {{ minBet }} ERG
+      </p>
+
+      <!-- <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="headingOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Accordion Item #1
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+      <!-- <div class="accordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              Ante Bonus Payouts
+            </button>
+          </h2>
+          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <p>
+                Straight Flush 5 to 1
+                <br>
+                Three of a Kind 4 to 1
+                <br>
+                Straight 1 to 1
+              </p>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <!-- <h3 style="text-decoration: underline;">Ante Bet Bonus</h3>
+      <p>
+        Straight Flush 5 to 1
+        <br>
+        Three of a Kind 4 to 1
+        <br>
+        Straight 1 to 1
+      </p> -->
+    </div>
+    <div class="col-4 text-center">
+      <p class="text-center">
+        Max. Bet: {{ maxBet }} ERG
+      </p>
+      <!-- <h3 style="text-decoration: underline;">Pair Plus</h3>
+      <p>
+        Straight Flush 40 to 1
+        <br>
+        Three of a Kind 25 to 1
+        <br>
+        Straight 5 to 1
+        <br>
+        Flush 4 to 1
+        <br>
+        Pair 1 to 1
+      </p> -->
+    </div>
+    <div class="col-4">
+      <p class="text-center">
+        <!-- *Hands that tie will push -->
+        Your balance: {{playerAmount}} ERG
+      </p>
+    </div>
+  </div>
+
+  <div class="row mb-3 mt-3 justify-content-center text-center">
+    <div class="col-4">
+
+      <div>
+        <app-deck></app-deck>
+      </div>
+
+      <form action="" (ngSubmit)="dealCards()" #wagerForm="ngForm">
+        <div>
+          <label for="placeWager" class="form-label mb-3 mt-3">Ante Amount</label>
+          <input [(ngModel)]="wagerAmount" name="wagerAmount" #amountWagered="ngModel" [disabled]="allowRaiseOrFold" type="number" class="form-control mb-2" id="wagerAmount" placeholder="Wager Amount" min="1" max="25" required>
+          <div [hidden]="amountWagered.valid || amountWagered.pristine || allowRaiseOrFold" class="alert alert-danger">
+            <p>
+              Wager must be between {{minBet}}-{{maxBet}} ERG
+            </p>
+          </div>
+
+          <label for="pairPlusWager" class="form-label mb-3 mt-3">Pair Plus</label>
+          <input [(ngModel)]="pairPlus" name="pairPlus" #pairPlusWager="ngModel" [disabled]="allowRaiseOrFold" type="number" class="form-control mb-2" id="pairPlus" placeholder="Wager Amount" min="0" max="25">
+          <div [hidden]="pairPlus.valid || pairPlus.pristine || allowRaiseOrFold" class="alert alert-danger">
+            <p>
+              Wager can not exceed {{maxBet}} ERG
+            </p>
+          </div>
+
+          <button [disabled]="amountWagered.invalid || beenDealt" type="submit" class="mb-3 mt-3" style="width: 100%;">Deal</button>
+
+        </div>
+      </form>
+      <div class="justify-content-between" style="display: flex;">
+        <button (click)="raise()" [disabled]="!allowRaiseOrFold" type="button" class="mb-3 mt-3" style="width: 45%;">Raise {{ wagerAmount }} ERG</button>
+        <button (click)="foldCards()" [disabled]="!allowRaiseOrFold" type="button" class="mb-3 mt-3" style="width: 45%;">Fold</button>
+      </div>
+    </div>
+
+    <div class="col-8">
+      <h3 [ngClass]="{'hand-text': allowRaiseOrFold || declareWinner}">{{dealerHand}}</h3>
+      <!-- <div class="card-in-hand text-center" *ngFor="let dealtCard of dealerCards">
+        <img [ngClass]="{'card-back': allowRaiseOrFold}" class="dealt-card" [src]="!allowRaiseOrFold ? dealtCard.image : './assets/images/Optimized-card-back-red.png'" alt="">
+      </div> -->
+      <img *ngFor="let dealtCard of dealerCards" [ngClass]="{'card-back': allowRaiseOrFold}" class="dealt-card" [src]="!allowRaiseOrFold ? dealtCard.image : './assets/images/Optimized-card-back-red.png'" alt="">
+
+      <h3 [ngClass]="{'hand-text': allowRaiseOrFold || declareWinner}">{{yourHand}}</h3>
+      <!-- <div class="card-in-hand text-center" *ngFor="let dealtCard of playerCards">
+        <img class="dealt-card"[src]="dealtCard.image" alt="">
+      </div> -->
+      <img  *ngFor="let dealtCard of playerCards" class="dealt-card" [src]="dealtCard.image" alt="">
+    </div>
+  </div>
+</div>

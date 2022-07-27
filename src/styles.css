@@ -1,0 +1,30 @@
+/* You can add global styles to this file, and also import other style files */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body{
+  /* font-family: 'Rye', cursive; */
+  font-family: 'Special Elite', cursive;
+  font-size: 1.6rem;
+  /* background-color: #FD710F; */
+  /* background-color: #3F3FBC; */
+  /* background-color: #3e2e60; */
+  /* background-color: #4c52d4; */
+  background-color: #360E95;
+  color: white;
+}
+
+button {
+  color: #360E95;
+  background-color: #f4d83d;
+  padding: 1rem;
+  border-radius: 20rem;
+  border: none;
+}

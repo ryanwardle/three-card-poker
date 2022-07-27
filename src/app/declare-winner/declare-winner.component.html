@@ -1,0 +1,40 @@
+<!-- <div class="container">
+  <div class="row">
+    <div class="col" style="text-align: center;">
+      <h3>{{ result }} {{winningRank}}</h3>
+      2. Show what the winning and losing hand was ie straight flush beats 2 of a kind etc..
+    </div>
+  </div>
+
+  <form action="" #raiseFoldForm="ngForm">
+    Look at above button as template, no (click) and type=submit
+    <div class="row justify-content-center">
+      <div class="col-2">
+        <button (click)="playAgain()" type="button" class="mb-3 mt-3" style="width: 100%;">Play Again</button>
+      </div>
+      <div class="col-2">
+        <button (click)="leaveGame()" type="button" class="mb-3 mt-3" style="width: 100%;">Leave Game</button>
+      </div>
+    </div>
+  </form>
+</div> -->
+
+
+<!-- Modal -->
+<div class="modal" id="declareWinnerModal" tabindex="-1" aria-labelledby="declareWinnerLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="declareWinnerLabel">Three Card Poker</h5>
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+      </div>
+      <div class="modal-body">
+        <h3>{{ result }} {{winningRank}}</h3>
+      </div>
+      <div class="modal-footer">
+        <button (click)="playAgain()" type="button" class="btn btn-lg" data-bs-dismiss="modal">Play Again</button>
+        <button (click)="leaveGame()" type="button" class="btn btn-lg">Leave Game</button>
+      </div>
+    </div>
+  </div>
+</div>
