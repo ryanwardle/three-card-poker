@@ -5,29 +5,14 @@
         Min. Bet: {{ minBet }} ERG
       </p>
 
-      <!-- <div class="accordion" id="accordionExample">
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="headingOne">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              Accordion Item #1
-            </button>
-          </h2>
-          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-            <div class="accordion-body">
-              <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-            </div>
-          </div>
-        </div>
-      </div> -->
-
-      <!-- <div class="accordion">
+      <div class="accordion">
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#anteCollapse" aria-expanded="true" aria-controls="anteCollapse">
               Ante Bonus Payouts
             </button>
           </h2>
-          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+          <div id="anteCollapse" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#anteAccordion">
             <div class="accordion-body">
               <p>
                 Straight Flush 5 to 1
@@ -39,32 +24,39 @@
             </div>
           </div>
         </div>
-      </div> -->
-      <!-- <h3 style="text-decoration: underline;">Ante Bet Bonus</h3>
-      <p>
-        Straight Flush 5 to 1
-        <br>
-        Three of a Kind 4 to 1
-        <br>
-        Straight 1 to 1
-      </p> -->
+      </div>
+
     </div>
     <div class="col-4 text-center">
       <p class="text-center">
         Max. Bet: {{ maxBet }} ERG
       </p>
-      <!-- <h3 style="text-decoration: underline;">Pair Plus</h3>
-      <p>
-        Straight Flush 40 to 1
-        <br>
-        Three of a Kind 25 to 1
-        <br>
-        Straight 5 to 1
-        <br>
-        Flush 4 to 1
-        <br>
-        Pair 1 to 1
-      </p> -->
+
+      <div class="accordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#pairPlusCollapse" aria-expanded="true" aria-controls="pairPlusCollapse">
+               Pair Plus Payouts
+            </button>
+          </h2>
+          <div id="pairPlusCollapse" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#pairPlusAccordion">
+            <div class="accordion-body">
+              <p>
+                Straight Flush 40 to 1
+                <br>
+                Three of a Kind 25 to 1
+                <br>
+                Straight 5 to 1
+                <br>
+                Flush 4 to 1
+                <br>
+                Pair 1 to 1
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
     <div class="col-4">
       <p class="text-center">
@@ -92,7 +84,7 @@
           </div>
 
           <label for="pairPlusWager" class="form-label mb-3 mt-3">Pair Plus</label>
-          <input [(ngModel)]="pairPlus" name="pairPlus" #pairPlusWager="ngModel" [disabled]="allowRaiseOrFold" type="number" class="form-control mb-2" id="pairPlus" placeholder="Wager Amount" min="0" max="25">
+          <input [(ngModel)]="pairPlusWager" name="pairPlusWager" #pairPlus="ngModel" [disabled]="allowRaiseOrFold" type="number" class="form-control mb-2" id="pairPlusWager" placeholder="Wager Amount" min="0" max="25">
           <div [hidden]="pairPlus.valid || pairPlus.pristine || allowRaiseOrFold" class="alert alert-danger">
             <p>
               Wager can not exceed {{maxBet}} ERG

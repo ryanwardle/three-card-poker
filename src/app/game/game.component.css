@@ -46,6 +46,20 @@ input {
   /* width: auto; */
 }
 
+.accordion{
+  text-align: center;
+  color:#360E95;
+}
+
+.accordion-body{
+  background-color: #F9CE10;
+}
+
+.accordion-header button{
+  background-color: #F9CE10;
+  color:#360E95;
+}
+
 /*
 Yellow - #F9CE10
 Orange - #FD710F

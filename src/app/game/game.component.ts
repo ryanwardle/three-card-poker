@@ -29,7 +29,7 @@ export class GameComponent implements OnInit {
   playerAmount: number = 100;
 
   // Had to change to any, need to get it back to number, doesn't make sense why html and ts seem to be the same as wagerAmount
-  pairPlus: any = 0;
+  pairPlusWager: number = 0;
   pairPlusPayouts: number[] = [40, 25, 5, 4, 1];
 
   // // Assisgned variables, because will probably have to get dynamically later using formula for maxBet
@@ -79,8 +79,8 @@ export class GameComponent implements OnInit {
     this.sharedUtilitiesService.beenDealt = true;
     this.wagerAmount = this.wagerAmount.valueOf();
     this.playerAmount -= this.wagerAmount;
-    this.pairPlus = this.pairPlus.valueOf();
-    this.playerAmount -= this.pairPlus;
+    this.pairPlusWager = this.pairPlusWager.valueOf();
+    this.playerAmount -= this.pairPlusWager;
     this.sharedUtilitiesService.dealerHand = "Dealer Hand";
     this.sharedUtilitiesService.yourHand = "Your Hand";
     this.sharedUtilitiesService.cards = this.deckOfCardsService.getDealtCards();
@@ -113,7 +113,7 @@ export class GameComponent implements OnInit {
 
     // SHOULD THIS BE IN DEAL? WHAT IF SOMEONE ONLY PLAYS PAIR PLUS? NEED TO ADJUST ANTE AND MAKE SURE EITHER PAIR PLUS OR ANTE IS PLAYED, ANTE NOT REQUIRED
     // Check and payout Pair Plus
-    handRank !== 6 ? this.playerAmount += this.pairPlus * this.pairPlusPayouts[handRank - 1] : '';
+    handRank !== 6 ? this.playerAmount += this.pairPlusWager * this.pairPlusPayouts[handRank - 1] : '';
 
 
     // Pay Ante Bonus...maybe able to simplify and combine with above
