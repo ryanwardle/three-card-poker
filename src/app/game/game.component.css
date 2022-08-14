@@ -67,3 +67,27 @@ Red - #F43000
 Dark Blue - #D40F3C
 Pink - #FCFSEB
 */
+
+.modal-content{
+  /* background: linear-gradient(to bottom, #696969 0%, #3b3b3b 100%);
+  opacity: .9; */
+  /* color: #360E95;
+  background-color: #f4d83d; */
+  color: #360E95;
+  background-color: #f4d83d;
+  height: 33.3vh;
+}
+
+.modal-footer button {
+  color: #f4d83d;
+  background-color: #360E95;
+  padding: 1rem;
+  border-radius: 20rem;
+  border: none;
+}
+
+.modal-footer button:hover{
+  background-color: #f4d83d;
+  color: #360E95;
+  border: .01rem solid #360E95;
+}

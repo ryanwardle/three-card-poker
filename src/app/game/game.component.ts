@@ -23,10 +23,11 @@ export class GameComponent implements OnInit {
     this.getMaxBet();
   }
 
-  minBet: number = 0;
+  minBet: number = 1;
   maxBet: number = 100;
   wagerAmount: number = 1;
   playerAmount: number = 100;
+  insufficientFunds: Boolean = false;
 
   // Had to change to any, need to get it back to number, doesn't make sense why html and ts seem to be the same as wagerAmount
   pairPlusWager: number = 0;
@@ -73,17 +74,34 @@ export class GameComponent implements OnInit {
     // Needs to:
     // 2. Get money from user and send to smart contract
     // 3. Deal the cards
+    // 4. Check for enough funds
+
     this.deckOfCardsService.generateCards();
     this.sharedUtilitiesService.wagerNotSubmitted = false;
     this.sharedUtilitiesService.allowRaiseOrFold = true;
     this.sharedUtilitiesService.beenDealt = true;
+    this.sharedUtilitiesService.cards = this.deckOfCardsService.getDealtCards();
+
+    // Checks for enough funds to play before dealing cards
+    // Need to add check for pairPlus also...kind of already works
+    // Need to have modal pop up to tell user
+    // Need to double check order on all of this, can maybe move this section first?
+    if(this.playerAmount < this.wagerAmount * 2){
+      $('#insufficientFundsModal').show();
+      console.log("not enough funds")
+      return;
+    }
+
+    // Needs to be after check for funds above, shouldn't take if game can't be played
+    // Maybe wagerAmount should be moved before above check, to get current wager, should run check with 2 numbers
     this.wagerAmount = this.wagerAmount.valueOf();
     this.playerAmount -= this.wagerAmount;
     this.pairPlusWager = this.pairPlusWager.valueOf();
     this.playerAmount -= this.pairPlusWager;
+
+    // This adds to UI needs to be after check for funds above
     this.sharedUtilitiesService.dealerHand = "Dealer Hand";
     this.sharedUtilitiesService.yourHand = "Your Hand";
-    this.sharedUtilitiesService.cards = this.deckOfCardsService.getDealtCards();
 
     // Deals cards into 2 arrays playerCards and DealerCards
     for(let i = 0; i < this.sharedUtilitiesService.cards.length; i++){
@@ -97,7 +115,6 @@ export class GameComponent implements OnInit {
 
     // ANIMATE DEALING OF CARDS
     // $(this).addClass('animated');
-
   }
 
   raise(){

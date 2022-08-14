@@ -3,12 +3,14 @@ import org.ergoplatform.compiler.ErgoScalaCompiler._
 import org.ergoplatform.playgroundenv.utils.ErgoScriptCompiler
 import org.ergoplatform.playground._
 
-// val pairPlus:Long = OUTPUTS(0).R5[Long].get
+// Temporary until oracle is used
+import scorex.utils.Random
 
 val startGameScript = s"""
     {
     val ante = OUTPUTS(0).R4[Long].get
-    sigmaProp(SELF.value == ante)
+    val pairPlus = OUTPUTS(0).R5[Long].get
+    sigmaProp(SELF.value == ante + pairPlus)
     }
     """.stripMargin
 
@@ -40,15 +42,20 @@ val anteBet:Long = 5000000000L
 val pairPlusBet:Long = 1000000000L
 val totalBets: Long = anteBet + pairPlusBet
 
+// val randomNumber = scala.util.Random
+
+// println(randomNumber)
+
 val startGameBox = Box(
-    value = anteBet,
-    register = R4 -> anteBet,
+    value = anteBet + pairPlusBet,
+    registers = Map(R4 -> anteBet,
+                    R5 -> pairPlusBet),
     script = startGameContract
 )
 
 // Create ante transaction which locks the bettor's wager under the contract
 val anteTransaction = Transaction(
-      inputs       = bettor.selectUnspentBoxes(toSpend = anteBet),
+      inputs       = bettor.selectUnspentBoxes(toSpend = anteBet + pairPlusBet),
       outputs      = List(startGameBox),
       fee          = MinTxFee,
       sendChangeTo = bettor.wallet.getAddress
