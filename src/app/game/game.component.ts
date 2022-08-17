@@ -76,32 +76,34 @@ export class GameComponent implements OnInit {
     // 3. Deal the cards
     // 4. Check for enough funds
 
-    this.deckOfCardsService.generateCards();
-    this.sharedUtilitiesService.wagerNotSubmitted = false;
-    this.sharedUtilitiesService.allowRaiseOrFold = true;
-    this.sharedUtilitiesService.beenDealt = true;
-    this.sharedUtilitiesService.cards = this.deckOfCardsService.getDealtCards();
+    // Get current wager amounts before checks
+    this.wagerAmount = this.wagerAmount.valueOf();
+    this.pairPlusWager = this.pairPlusWager.valueOf();
 
     // Checks for enough funds to play before dealing cards
     // Need to add check for pairPlus also...kind of already works
-    // Need to have modal pop up to tell user
-    // Need to double check order on all of this, can maybe move this section first?
-    if(this.playerAmount < this.wagerAmount * 2){
+    if(this.playerAmount < (this.wagerAmount * 2 + this.pairPlusWager)){
       $('#insufficientFundsModal').show();
       console.log("not enough funds")
       return;
     }
 
+    // Subtract wager amounts from player amount if they have sufficient funds
+    // 2 lines below may be solved and able to remove comments
     // Needs to be after check for funds above, shouldn't take if game can't be played
     // Maybe wagerAmount should be moved before above check, to get current wager, should run check with 2 numbers
-    this.wagerAmount = this.wagerAmount.valueOf();
     this.playerAmount -= this.wagerAmount;
-    this.pairPlusWager = this.pairPlusWager.valueOf();
     this.playerAmount -= this.pairPlusWager;
 
     // This adds to UI needs to be after check for funds above
     this.sharedUtilitiesService.dealerHand = "Dealer Hand";
     this.sharedUtilitiesService.yourHand = "Your Hand";
+
+    this.deckOfCardsService.generateCards();
+    this.sharedUtilitiesService.wagerNotSubmitted = false;
+    this.sharedUtilitiesService.allowRaiseOrFold = true;
+    this.sharedUtilitiesService.beenDealt = true;
+    this.sharedUtilitiesService.cards = this.deckOfCardsService.getDealtCards();
 
     // Deals cards into 2 arrays playerCards and DealerCards
     for(let i = 0; i < this.sharedUtilitiesService.cards.length; i++){
@@ -128,14 +130,16 @@ export class GameComponent implements OnInit {
     let handRank: any = this.sharedUtilitiesService.getWinner(this.playerCards, this.dealerCards)[1];
 
 
+    // ****ADDED +THIS.PAIRPLUSWAGER AND +THIS.WAGERAMOUNT TO 2 CHECKS BELOW, ADDS BACK ORIGINAL WAGER..WRITING THIS TO DOUBLE CHECK
+
     // SHOULD THIS BE IN DEAL? WHAT IF SOMEONE ONLY PLAYS PAIR PLUS? NEED TO ADJUST ANTE AND MAKE SURE EITHER PAIR PLUS OR ANTE IS PLAYED, ANTE NOT REQUIRED
     // Check and payout Pair Plus
-    handRank !== 6 ? this.playerAmount += this.pairPlusWager * this.pairPlusPayouts[handRank - 1] : '';
+    handRank !== 6 ? this.playerAmount += this.pairPlusWager * this.pairPlusPayouts[handRank - 1] + this.pairPlusWager : '';
 
 
     // Pay Ante Bonus...maybe able to simplify and combine with above
     if(handRank <= 3){
-      handRank === 3 ? this.playerAmount += this.wagerAmount : this.playerAmount += this.wagerAmount * (6 - handRank)
+      handRank === 3 ? this.playerAmount += this.wagerAmount : this.playerAmount += this.wagerAmount * (6 - handRank) + this.wagerAmount
     }
 
     // CHECKS IF PLAYER WON
@@ -175,5 +179,9 @@ export class GameComponent implements OnInit {
   // Will need to get max bet dynamically eventually
   getMaxBet() {
     this.maxBet = 25;
+  }
+
+  closeModal() {
+    $("#insufficientFundsModal").hide();
   }
 }

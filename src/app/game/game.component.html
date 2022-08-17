@@ -91,7 +91,13 @@
             </p>
           </div>
 
-          <button [disabled]="amountWagered.invalid || beenDealt" type="submit" class="mb-3 mt-3" style="width: 100%;">Deal</button>
+          <div [hidden]="pairPlusWager !== null" class="alert alert-danger">
+            <p>
+              Enter 0 for no Pair Plus wager
+            </p>
+          </div>
+
+          <button [disabled]="amountWagered.invalid || beenDealt || pairPlus.invalid" type="submit" class="mb-3 mt-3" style="width: 100%;">Deal</button>
 
         </div>
       </form>
@@ -124,12 +130,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="insufficientFundsLabel">Three Card Poker</h5>
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
       </div>
       <div class="modal-body">
         <h3>Insufficient funds</h3>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-lg" data-bs-dismiss="modal">Okay!</button>
+        <button (click)="closeModal()" type="button" class="btn btn-lg" data-bs-dismiss="modal">Okay!</button>
       </div>
     </div>
   </div>
