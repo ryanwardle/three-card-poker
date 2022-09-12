@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { DeckOfCardsService } from '../deck-of-cards.service';
 import { SharedUtilitiesService } from '../shared-utilities.service';
-import * as $ from 'jquery'
-import * as bootstrap from 'bootstrap'
+import * as $ from 'jquery';
+import * as bootstrap from 'bootstrap';
+import * as ergoscript from 'ergoscript';
+import * as ergoWasm from 'ergo-lib-wasm-browser'
+import Transaction from 'ergoscript';
+import { MIN_FEE } from 'ergoscript/lib/constants';
 
 
 @Component({
@@ -18,7 +22,7 @@ export class GameComponent implements OnInit {
 }
 
   ngOnInit(): void {
-
+    this.checkWalletConnection();
     this.getMinBet();
     this.getMaxBet();
   }
@@ -27,13 +31,17 @@ export class GameComponent implements OnInit {
   maxBet: number = 100;
   wagerAmount: number = 1;
   playerAmount: number = 100;
-  insufficientFunds: Boolean = false;
+  insufficientFunds: boolean = false;
 
-  // Had to change to any, need to get it back to number, doesn't make sense why html and ts seem to be the same as wagerAmount
+  // Displayed in UI
+  walletText: string = 'Connect Wallet'
+
+  // isConnected = await ergo_request_read_access();
+  // isConnected:Promise<boolean> | null = null;
+  isConnected: boolean | null = true;
+
   pairPlusWager: number = 0;
   pairPlusPayouts: number[] = [40, 25, 5, 4, 1];
-
-  // // Assisgned variables, because will probably have to get dynamically later using formula for maxBet
 
   // Running total or payout after each game?
 
@@ -69,6 +77,25 @@ export class GameComponent implements OnInit {
     return this.sharedUtilitiesService.playerCards;
   }
 
+  // *****Transaction going here for now until I check order*****
+  // async sendWager() {
+  //   const tx = new Transaction([
+  //     {
+  //       funds: {
+  //         ERG: MIN_FEE,
+  //         tokens: [{amount: 1, tokenId: '0779ec04f2fae64e87418a1ad917639d4668f78484f45df962b0dec14a2591d2'}]
+  //       },
+  //       toAddress: "9gQTvn7KpptzfbJezcJTqnBnyvCKv5U4GipXFWJsTW9tBcgY1iW",
+  //       additionalRegisters: {}
+  //     }
+  //   ])
+
+  //   const unsignedTx = await tx.build();
+
+  //   const signedTx = await ergo.sign_tx(unsignedTx.toJSON());
+
+  //   // await ergo.submit_tx(signedTx);
+  // }
 
   dealCards(){
     // Needs to:
@@ -87,6 +114,11 @@ export class GameComponent implements OnInit {
       console.log("not enough funds")
       return;
     }
+
+
+
+    // sendWager();
+
 
     // Subtract wager amounts from player amount if they have sufficient funds
     // 2 lines below may be solved and able to remove comments
@@ -183,5 +215,18 @@ export class GameComponent implements OnInit {
 
   closeModal() {
     $("#insufficientFundsModal").hide();
+  }
+
+  // Function called to check if wallet is connected, if so display abbv. address
+  async checkWalletConnection() {
+    this.isConnected = await ergo_check_read_access() || await ergo_request_read_access();
+    if(this.isConnected){
+      const address = await ergo.get_change_address();
+      console.log(address)
+      // Shorten address for better display
+      const firstPart = address.slice(0, 6);
+      const secondPart = address.slice(address.length - 7, address.length)
+      this.walletText = firstPart + '...' + secondPart;
+    }
   }
 }
